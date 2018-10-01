@@ -223,6 +223,7 @@ class Pool extends EventEmitter {
         this.log('client failed to connect', err)
         // remove the dead client from our list of clients
         this._clients = this._clients.filter(c => c !== client)
+        if (!this._clients.length && this._endCallback) this._endCallback()
         if (timeoutHit) {
           err.message = 'Connection terminated due to connection timeout'
         }
