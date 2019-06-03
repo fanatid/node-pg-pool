@@ -36,6 +36,23 @@ describe('connection timeout', () => {
     })
   })
 
+  it('should call _endCallback if Pool.end was called prior to receiving callback with error', (done) => {
+    const pool = new Pool({ connectionTimeoutMillis: 10, port: this.port })
+    let endCalled = false
+    pool.connect((err, client, release) => {
+      expect(err).to.be.an(Error)
+      expect(err.message).to.contain('timeout')
+      expect(client).to.equal(undefined)
+      expect(pool.idleCount).to.equal(0)
+      expect(endCalled).to.be(true)
+      done()
+    })
+    pool.end((err) => {
+      expect(err).to.be(undefined)
+      endCalled = true
+    })
+  })
+
   it('should reject promise with an error if timeout is passed', (done) => {
     const pool = new Pool({ connectionTimeoutMillis: 10, port: this.port })
     pool.connect().catch(err => {
