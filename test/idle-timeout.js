@@ -49,7 +49,7 @@ describe('idle timeout', () => {
     const pool = new Pool({ idleTimeoutMillis: 1 })
     const results = []
     for (var i = 0; i < 20; i++) {
-      let query = pool.query('SELECT NOW()')
+      const query = pool.query('SELECT NOW()')
       expect(pool.idleCount).to.equal(0)
       expect(pool.totalCount).to.equal(1)
       results.push(yield query)
@@ -64,7 +64,7 @@ describe('idle timeout', () => {
     const pool = new Pool({ idleTimeoutMillis: 1 })
     const results = []
     for (var i = 0; i < 20; i++) {
-      let client = yield pool.connect()
+      const client = yield pool.connect()
       expect(pool.totalCount).to.equal(1)
       expect(pool.idleCount).to.equal(0)
       yield wait(10)
