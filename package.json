@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": " node_modules/.bin/mocha && node_modules/.bin/standard"
+    "lint": "standard",
+    "test": "npm run unit && npm run lint",
+    "unit": "mocha"
   },
   "repository": {
     "type": "git",
